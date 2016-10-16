@@ -83,6 +83,11 @@ module.exports = yeoman.generators.Base.extend({
       this.props
     );
     this.fs.copyTpl(
+      this.templatePath(srcDirPrefix + 'swagger/SwaggerConfig.java'),
+      this.destinationPath(srcDir + 'swagger/SwaggerConfig.java'),
+      this.props
+    );
+    this.fs.copyTpl(
       this.templatePath(srcDirPrefix + 'SpringTemplateApplication.java'),
       this.destinationPath(srcDir + this.props.mainClassName + '.java'),
       this.props
