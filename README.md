@@ -1,4 +1,4 @@
-# generator-spring-boot [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-spring-boot 
 > Yeoman generator for Spring Boot
 
 ## Installation
@@ -22,7 +22,7 @@ Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he
 
 ## License
 
-Apache-2.0 © [Oddgeir Gitlestad]()
+Apache-2.0 © [Oddgeir Gitlestad](https://github.com/Rodjers/generator-spring-boot/blob/master/LICENSE.md)
 
 
 [npm-image]: https://badge.fury.io/js/generator-spring-boot.svg
