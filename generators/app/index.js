@@ -23,6 +23,18 @@ module.exports = yeoman.generators.Base.extend({
       name: 'mainClassName',
       message: 'Enter main class name:',
       default: 'ExampleApplication'
+    },
+    {
+      type: 'confirm',
+      name: 'metricsEnabled',
+      message: 'Do you want the app to expose a metrics endpoint?',
+      default: 'true'
+    },
+    {
+      type: 'confirm',
+      name: 'prometheusEnabled',
+      message: 'Do you want the app to expose metrics in the prometheus format?',
+      default: 'true'
     }];
 
     this.prompt(prompts, function (props) {
@@ -37,8 +49,10 @@ module.exports = yeoman.generators.Base.extend({
 
     var testDirPrefix = 'src/test/java/';
     var srcDirPrefix = 'src/main/java/';
-    var testDir = testDirPrefix + this.props.packageName.replace('.','/');
-    var srcDir = srcDirPrefix + this.props.packageName.replace('.','/');
+    var testDir = testDirPrefix + this.props.packageName.replace(/\./g,'/') + '/';
+    var srcDir = srcDirPrefix + this.props.packageName.replace(/\./g,'/') + '/';
+    var metricsDir = srcDir + 'metrics/'
+    var metricsDirPrefix = srcDirPrefix + 'metrics/'
     var resourceDir = 'src/main/resources/';
     var gradleWrapperDir = 'gradle/wrapper/';
 
@@ -65,12 +79,12 @@ module.exports = yeoman.generators.Base.extend({
     );
     this.fs.copyTpl(
       this.templatePath(testDirPrefix + 'SpringTemplateApplicationTests.java'),
-      this.destinationPath(testDir + '/' + this.props.mainClassName + 'Tests.java'),
+      this.destinationPath(testDir + this.props.mainClassName + 'Tests.java'),
       this.props
     );
     this.fs.copyTpl(
       this.templatePath(srcDirPrefix + 'SpringTemplateApplication.java'),
-      this.destinationPath(srcDir + '/' + this.props.mainClassName + '.java'),
+      this.destinationPath(srcDir + this.props.mainClassName + '.java'),
       this.props
     );
     this.fs.copy(
@@ -81,6 +95,33 @@ module.exports = yeoman.generators.Base.extend({
       this.templatePath(resourceDir + 'logback.xml'),
       this.destinationPath(resourceDir + 'logback.xml')
     );
+    if (this.props.prometheusEnabled) {
+      this.fs.copyTpl(
+        this.templatePath( metricsDirPrefix + 'PrometheusEndpoint.java'),
+        this.destinationPath(metricsDir + 'PrometheusEndpoint.java'),
+        this.props
+      );
+      this.fs.copyTpl(
+        this.templatePath( metricsDirPrefix + 'PrometheusEndpointContextConfiguration.java'),
+        this.destinationPath(metricsDir + 'PrometheusEndpointContextConfiguration.java'),
+        this.props
+      );
+      this.fs.copyTpl(
+        this.templatePath( metricsDirPrefix + 'PrometheusMetricWriter.java'),
+        this.destinationPath(metricsDir + 'PrometheusMetricWriter.java'),
+        this.props
+      );
+      this.fs.copyTpl(
+        this.templatePath( metricsDirPrefix + 'PrometheusMvcEndpoint.java'),
+        this.destinationPath(metricsDir + 'PrometheusMvcEndpoint.java'),
+        this.props
+      );
+      this.fs.copyTpl(
+        this.templatePath( resourceDir + 'META-INF/spring.factories'),
+        this.destinationPath(metricsDir + 'META-INF/spring.factories'),
+        this.props
+      );
+    }
   },
 
   install: function () {

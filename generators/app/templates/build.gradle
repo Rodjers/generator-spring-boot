@@ -28,10 +28,17 @@ repositories {
 
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-integration")
-    compile("org.jolokia:jolokia-core")
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile("org.springframework.integration:spring-integration-java-dsl:1.0.1.RELEASE")
+  <% if(metricsEnabled) { %>
+  <%-  "compile('org.jolokia:jolokia-core')" %>
+  <%-  "compile('org.springframework.boot:spring-boot-starter-actuator')" %>
+  <% } %>
+  <%-  "compile('org.springframework.boot:spring-boot-starter-web')" %>
+  <% if(metricsEnabled) { %>
+  <%-  "compile('io.prometheus:simpleclient:0.0.13')" %>
+  <%-  "compile('io.prometheus:simpleclient_common:0.0.13')" %>
+  <%-  "compile('io.prometheus:simpleclient_spring_boot:0.0.16')" %>
+  <% } %>
+
     testCompile('org.springframework.boot:spring-boot-starter-test') 
 }
 
