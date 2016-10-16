@@ -3,14 +3,19 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-spring-boot using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-spring-boot
 ```
 
-Then generate your new project:
+Then clone this repo, change to the folder where you cloned it and , make a link to the generator:
+
+```bash
+npm link
+```
+
+Then generate your new project (In some other folder where you want the project):
 
 ```bash
 yo generator-spring-boot
